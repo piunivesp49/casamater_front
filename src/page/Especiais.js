@@ -6,7 +6,7 @@ const Especiais = () => {
 
   // Função para buscar os dados da API
   const fetchEspeciais = () => {
-    fetch("http://localhost:8081/api/especiais")
+    fetch("https://f322-2804-7f0-6540-600f-1d00-d9b7-d6cb-da39.ngrok-free.app")
       .then((response) => response.json())
       .then((data) => {
         const formattedData = data.map((item) => ({
@@ -76,7 +76,7 @@ const Especiais = () => {
     try {
       await Promise.all(
         especiais.map((item) =>
-          fetch(`http://localhost:8081/api/especiais/${item.id}`, {
+          fetch(`https://f322-2804-7f0-6540-600f-1d00-d9b7-d6cb-da39.ngrok-free.app/api/especiais/${item.id}`, {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(item),

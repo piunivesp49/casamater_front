@@ -3,32 +3,44 @@ import axios from 'axios';
 import '../css/Crianca.css';
 
 function Crianca() {
+  // Estado para os campos de formulário
   const [id, setId] = useState(null);
   const [atendido, setAtendido] = useState('');
   const [nascimento, setNascimento] = useState('');
   const [logradouro, setLogradouro] = useState('');
   const [numero, setNumero] = useState('');
   const [bairro, setBairro] = useState('');
-  const [criancas, setCriancas] = useState([]);
+  const [criancas, setCriancas] = useState([]); // Inicializa como array vazio
 
+  // Busca as crianças ao carregar o componente
   useEffect(() => {
     fetchCriancas();
   }, []);
 
+  // Função para buscar crianças do backend
   const fetchCriancas = async () => {
     try {
       const response = await axios.get('https://f322-2804-7f0-6540-600f-1d00-d9b7-d6cb-da39.ngrok-free.app/api/crianca');
-      setCriancas(response.data);
+      console.log("Resposta do backend:", response.data); // Log para depuração
+      if (Array.isArray(response.data)) {
+        setCriancas(response.data); // Atualiza o estado apenas se for um array
+      } else {
+        console.error("Os dados recebidos não são um array:", response.data);
+        setCriancas([]); // Define um array vazio como fallback
+      }
     } catch (error) {
-      alert('Erro ao buscar crianças');
+      console.error("Erro ao buscar crianças:", error);
+      alert('Erro ao buscar crianças!');
     }
   };
 
+  // Função para formatar data no formato DD/MM/YYYY
   const formatarData = (data) => {
     const partes = data.split('-');
     return `${partes[2]}/${partes[1]}/${partes[0]}`;
   };
 
+  // Função para salvar ou atualizar uma criança
   const handleSalvar = async () => {
     const crianca = {
       atendido,
@@ -49,13 +61,14 @@ function Crianca() {
         alert('Criança atualizada com sucesso!');
       }
       limparCampos();
-      fetchCriancas();
+      fetchCriancas(); // Atualiza a lista após salvar/atualizar
     } catch (error) {
       console.error(error);
       alert('Erro ao salvar criança!');
     }
   };
 
+  // Função para editar uma criança
   const handleEditar = (crianca) => {
     setId(crianca.id);
     setAtendido(crianca.atendido);
@@ -65,33 +78,37 @@ function Crianca() {
     setBairro(crianca.bairro);
   };
 
+  // Função para formatar data para o input de data (YYYY-MM-DD)
   const formatarDataParaInput = (data) => {
     const partes = data.split('/');
     return `${partes[2]}-${partes[1]}-${partes[0]}`;
   };
 
+  // Função para excluir uma criança
   const handleExcluir = async (id) => {
     try {
       await axios.delete(`https://f322-2804-7f0-6540-600f-1d00-d9b7-d6cb-da39.ngrok-free.app/api/crianca/${id}`);
       alert('Criança excluída com sucesso!');
-      fetchCriancas();
+      fetchCriancas(); // Atualiza a lista após excluir
     } catch (error) {
       console.error(error);
       alert('Erro ao excluir criança!');
     }
   };
 
+  // Função para importar dados
   const handleImportar = async () => {
     try {
       await axios.post('https://f322-2804-7f0-6540-600f-1d00-d9b7-d6cb-da39.ngrok-free.app/api/crianca/importar');
       alert('Importação realizada com sucesso!');
-      fetchCriancas();
+      fetchCriancas(); // Atualiza a lista após importar
     } catch (error) {
       console.error(error);
       alert('Erro ao importar!');
     }
   };
 
+  // Função para limpar os campos do formulário
   const limparCampos = () => {
     setId(null);
     setAtendido('');
@@ -105,6 +122,7 @@ function Crianca() {
     <div className="crianca-container">
       <h2>Cadastro de Crianças</h2>
 
+      {/* Formulário */}
       <div className="form-wrapper">
         <div className="form-grid">
           <input
@@ -138,12 +156,14 @@ function Crianca() {
           />
         </div>
 
+        {/* Botões de Salvar e Importar */}
         <div className="buttons">
           <button onClick={handleSalvar}>Salvar</button>
           <button onClick={handleImportar}>Importar</button>
         </div>
       </div>
 
+      {/* Tabela de Crianças */}
       <table className="tabela-criancas">
         <thead>
           <tr>
@@ -156,19 +176,25 @@ function Crianca() {
           </tr>
         </thead>
         <tbody>
-          {criancas.map((c) => (
-            <tr key={c.id}>
-              <td>{c.atendido}</td>
-              <td>{c.nascimento}</td>
-              <td>{c.logradouro}</td>
-              <td>{c.numero}</td>
-              <td>{c.bairro}</td>
-              <td>
-                <button onClick={() => handleEditar(c)}>Editar</button>{' '}
-                <button onClick={() => handleExcluir(c.id)}>Excluir</button>
-              </td>
+          {Array.isArray(criancas) && criancas.length > 0 ? (
+            criancas.map((c) => (
+              <tr key={c.id}>
+                <td>{c.atendido}</td>
+                <td>{c.nascimento}</td>
+                <td>{c.logradouro}</td>
+                <td>{c.numero}</td>
+                <td>{c.bairro}</td>
+                <td>
+                  <button onClick={() => handleEditar(c)}>Editar</button>{' '}
+                  <button onClick={() => handleExcluir(c.id)}>Excluir</button>
+                </td>
+              </tr>
+            ))
+          ) : (
+            <tr>
+              <td colSpan="6">Nenhuma criança encontrada.</td>
             </tr>
-          ))}
+          )}
         </tbody>
       </table>
     </div>

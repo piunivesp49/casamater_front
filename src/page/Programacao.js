@@ -13,7 +13,7 @@ const Programacao = () => {
   const [editingId, setEditingId] = useState(null);
 
   useEffect(() => {
-    fetch("http://localhost:8081/api/programacao")
+    fetch("https://f322-2804-7f0-6540-600f-1d00-d9b7-d6cb-da39.ngrok-free.app/api/programacao")
       .then((res) => res.json())
       .then((data) => setProgramacoes(data))
       .catch((err) => console.error("Erro ao buscar programações:", err));
@@ -23,8 +23,8 @@ const Programacao = () => {
     e.preventDefault();
     const method = editingId ? "PUT" : "POST";
     const url = editingId
-      ? `http://localhost:8081/api/programacao/${editingId}`
-      : "http://localhost:8081/api/programacao";
+      ? `https://f322-2804-7f0-6540-600f-1d00-d9b7-d6cb-da39.ngrok-free.app/api/programacao/${editingId}`
+      : "https://f322-2804-7f0-6540-600f-1d00-d9b7-d6cb-da39.ngrok-free.app/api/programacao";
 
     const formattedData = {
       ...form,
@@ -39,7 +39,7 @@ const Programacao = () => {
 
     setForm({ responsavel: "", crianca: "", nascimento: "", nis: "", assinatura: "" });
     setEditingId(null);
-    fetch("http://localhost:8081/api/programacao")
+    fetch("https://f322-2804-7f0-6540-600f-1d00-d9b7-d6cb-da39.ngrok-free.app/api/programacao")
       .then((res) => res.json())
       .then((data) => setProgramacoes(data));
   };
@@ -54,12 +54,12 @@ const Programacao = () => {
 
   const handleDelete = async (id) => {
     if (!id) return;
-    await fetch(`http://localhost:8081/api/programacao/${id}`, { method: "DELETE" });
+    await fetch(`https://f322-2804-7f0-6540-600f-1d00-d9b7-d6cb-da39.ngrok-free.app/api/programacao/${id}`, { method: "DELETE" });
     setProgramacoes(programacoes.filter((p) => p.id !== id));
   };
 
   const handleImport = async () => {
-    await fetch("http://localhost:8081/api/programacao/importar", { method: "POST" });
+    await fetch("https://f322-2804-7f0-6540-600f-1d00-d9b7-d6cb-da39.ngrok-free.app/api/programacao/importar", { method: "POST" });
     alert("Importação iniciada!");
   };
 

@@ -22,7 +22,7 @@ function Presenca() {
 
   const buscarPresencas = async () => {
     try {
-      const response = await fetch('http://localhost:8081/api/presenca');
+      const response = await fetch('https://f322-2804-7f0-6540-600f-1d00-d9b7-d6cb-da39.ngrok-free.app/api/presenca');
       const data = await response.json();
       setPresencas(data);
     } catch (error) {
@@ -39,8 +39,8 @@ function Presenca() {
     e.preventDefault();
     const metodo = form.id ? 'PUT' : 'POST';
     const url = form.id
-      ? `http://localhost:8081/api/presenca/${form.id}`
-      : 'http://localhost:8081/api/presenca';
+      ? `https://f322-2804-7f0-6540-600f-1d00-d9b7-d6cb-da39.ngrok-free.app/api/presenca/${form.id}`
+      : 'https://f322-2804-7f0-6540-600f-1d00-d9b7-d6cb-da39.ngrok-free.app/api/presenca';
 
     try {
       const response = await fetch(url, {
@@ -73,7 +73,7 @@ function Presenca() {
 
   const handleDelete = async (id) => {
     if (window.confirm('Deseja apagar esta presença?')) {
-      await fetch(`http://localhost:8081/api/presenca/${id}`, {
+      await fetch(`https://f322-2804-7f0-6540-600f-1d00-d9b7-d6cb-da39.ngrok-free.app/api/presenca/${id}`, {
         method: 'DELETE'
       });
       buscarPresencas();
@@ -82,7 +82,7 @@ function Presenca() {
 
   const handleImport = async () => {
     try {
-      const response = await fetch('http://localhost:8081/api/presenca/importar', {
+      const response = await fetch('https://f322-2804-7f0-6540-600f-1d00-d9b7-d6cb-da39.ngrok-free.app/api/presenca/importar', {
         method: 'POST'
       });
       if (response.ok) {

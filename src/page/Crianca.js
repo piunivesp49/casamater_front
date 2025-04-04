@@ -20,7 +20,11 @@ function Crianca() {
   // Função para buscar crianças do backend
   const fetchCriancas = async () => {
     try {
-      const response = await axios.get('https://539a-2804-7f0-6540-600f-1d00-d9b7-d6cb-da39.ngrok-free.app/api/crianca');
+      const response = await axios.get('https://539a-2804-7f0-6540-600f-1d00-d9b7-d6cb-da39.ngrok-free.app/api/crianca', {
+        headers: {
+          'Ngrok-Skip-Browser-Warning': 'true', // Ignora a página de aviso
+        },
+      });
       console.log("Resposta do backend:", response.data); // Log para depuração
       if (Array.isArray(response.data)) {
         setCriancas(response.data); // Atualiza o estado apenas se for um array
@@ -54,10 +58,18 @@ function Crianca() {
 
     try {
       if (id === null) {
-        await axios.post('https://539a-2804-7f0-6540-600f-1d00-d9b7-d6cb-da39.ngrok-free.app/api/crianca', crianca);
+        await axios.post('https://539a-2804-7f0-6540-600f-1d00-d9b7-d6cb-da39.ngrok-free.app/api/crianca', crianca, {
+          headers: {
+            'Ngrok-Skip-Browser-Warning': 'true', // Ignora a página de aviso
+          },
+        });
         alert('Criança salva com sucesso!');
       } else {
-        await axios.put(`https://539a-2804-7f0-6540-600f-1d00-d9b7-d6cb-da39.ngrok-free.app/api/crianca/${id}`, crianca);
+        await axios.put(`https://539a-2804-7f0-6540-600f-1d00-d9b7-d6cb-da39.ngrok-free.app/api/crianca/${id}`, crianca, {
+          headers: {
+            'Ngrok-Skip-Browser-Warning': 'true', // Ignora a página de aviso
+          },
+        });
         alert('Criança atualizada com sucesso!');
       }
       limparCampos();
@@ -87,7 +99,11 @@ function Crianca() {
   // Função para excluir uma criança
   const handleExcluir = async (id) => {
     try {
-      await axios.delete(`https://539a-2804-7f0-6540-600f-1d00-d9b7-d6cb-da39.ngrok-free.app/api/crianca/${id}`);
+      await axios.delete(`https://539a-2804-7f0-6540-600f-1d00-d9b7-d6cb-da39.ngrok-free.app/api/crianca/${id}`, {
+        headers: {
+          'Ngrok-Skip-Browser-Warning': 'true', // Ignora a página de aviso
+        },
+      });
       alert('Criança excluída com sucesso!');
       fetchCriancas(); // Atualiza a lista após excluir
     } catch (error) {
@@ -99,7 +115,11 @@ function Crianca() {
   // Função para importar dados
   const handleImportar = async () => {
     try {
-      await axios.post('https://539a-2804-7f0-6540-600f-1d00-d9b7-d6cb-da39.ngrok-free.app/api/crianca/importar');
+      await axios.post('https://539a-2804-7f0-6540-600f-1d00-d9b7-d6cb-da39.ngrok-free.app/api/crianca/importar', {}, {
+        headers: {
+          'Ngrok-Skip-Browser-Warning': 'true', // Ignora a página de aviso
+        },
+      });
       alert('Importação realizada com sucesso!');
       fetchCriancas(); // Atualiza a lista após importar
     } catch (error) {

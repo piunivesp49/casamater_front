@@ -17,7 +17,7 @@ function Crianca() {
 
   const fetchCriancas = async () => {
     try {
-      const response = await axios.get('http://localhost:8081/api/crianca');
+      const response = await axios.get('https://f322-2804-7f0-6540-600f-1d00-d9b7-d6cb-da39.ngrok-free.app/api/crianca');
       setCriancas(response.data);
     } catch (error) {
       alert('Erro ao buscar crianças');
@@ -42,10 +42,10 @@ function Crianca() {
 
     try {
       if (id === null) {
-        await axios.post('http://localhost:8081/api/crianca', crianca);
+        await axios.post('https://f322-2804-7f0-6540-600f-1d00-d9b7-d6cb-da39.ngrok-free.app/api/crianca', crianca);
         alert('Criança salva com sucesso!');
       } else {
-        await axios.put(`http://localhost:8081/api/crianca/${id}`, crianca);
+        await axios.put(`https://f322-2804-7f0-6540-600f-1d00-d9b7-d6cb-da39.ngrok-free.app/api/crianca/${id}`, crianca);
         alert('Criança atualizada com sucesso!');
       }
       limparCampos();
@@ -72,7 +72,7 @@ function Crianca() {
 
   const handleExcluir = async (id) => {
     try {
-      await axios.delete(`http://localhost:8081/api/crianca/${id}`);
+      await axios.delete(`https://f322-2804-7f0-6540-600f-1d00-d9b7-d6cb-da39.ngrok-free.app/api/crianca/${id}`);
       alert('Criança excluída com sucesso!');
       fetchCriancas();
     } catch (error) {
@@ -83,7 +83,7 @@ function Crianca() {
 
   const handleImportar = async () => {
     try {
-      await axios.post('http://localhost:8081/api/crianca/importar');
+      await axios.post('https://f322-2804-7f0-6540-600f-1d00-d9b7-d6cb-da39.ngrok-free.app/api/crianca/importar');
       alert('Importação realizada com sucesso!');
       fetchCriancas();
     } catch (error) {

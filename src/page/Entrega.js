@@ -17,7 +17,7 @@ function Entrega() {
 
   const fetchEntregas = async () => {
     try {
-      const response = await axios.get('http://localhost:8081/api/entrega');
+      const response = await axios.get('https://f322-2804-7f0-6540-600f-1d00-d9b7-d6cb-da39.ngrok-free.app/api/entrega');
       setEntregas(response.data);
     } catch (error) {
       alert('Erro ao buscar entregas');
@@ -45,10 +45,10 @@ function Entrega() {
 
     try {
       if (id === null) {
-        await axios.post('http://localhost:8081/api/entrega', novaEntrega);
+        await axios.post('https://f322-2804-7f0-6540-600f-1d00-d9b7-d6cb-da39.ngrok-free.app/api/entrega', novaEntrega);
         alert('Entrega salva com sucesso!');
       } else {
-        await axios.put(`http://localhost:8081/api/entrega/${id}`, novaEntrega);
+        await axios.put(`https://f322-2804-7f0-6540-600f-1d00-d9b7-d6cb-da39.ngrok-free.app/api/entrega/${id}`, novaEntrega);
         alert('Entrega atualizada com sucesso!');
       }
       limparCampos();
@@ -70,7 +70,7 @@ function Entrega() {
 
   const handleExcluir = async (id) => {
     try {
-      await axios.delete(`http://localhost:8081/api/entrega/${id}`);
+      await axios.delete(`https://f322-2804-7f0-6540-600f-1d00-d9b7-d6cb-da39.ngrok-free.app/api/entrega/${id}`);
       alert('Entrega excluída com sucesso!');
       fetchEntregas();
     } catch (error) {
@@ -81,7 +81,7 @@ function Entrega() {
 
   const handleImportar = async () => {
     try {
-      await axios.post('http://localhost:8081/api/entrega/importar');
+      await axios.post('https://f322-2804-7f0-6540-600f-1d00-d9b7-d6cb-da39.ngrok-free.app/api/entrega/importar');
       alert('Importação realizada com sucesso!');
       fetchEntregas();
     } catch (error) {

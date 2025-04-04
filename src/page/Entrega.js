@@ -3,170 +3,149 @@ import axios from 'axios';
 import '../css/Entrega.css';
 
 function Entrega() {
+  // Estado para os campos de formulário
   const [id, setId] = useState(null);
-  const [responsavel, setResponsavel] = useState('');
-  const [crianca, setCrianca] = useState('');
-  const [contato, setContato] = useState('');
-  const [nascimento, setNascimento] = useState('');
-  const [tipo, setTipo] = useState('');
-  const [entregas, setEntregas] = useState([]);
+  const [descricao, setDescricao] = useState('');
+  const [dataEntrega, setDataEntrega] = useState('');
+  const [status, setStatus] = useState('');
+  const [entregas, setEntregas] = useState([]); // Inicializa como array vazio
 
+  // Busca as entregas ao carregar o componente
   useEffect(() => {
     fetchEntregas();
   }, []);
 
+  // Função para buscar entregas do backend
   const fetchEntregas = async () => {
     try {
       const response = await axios.get('https://f322-2804-7f0-6540-600f-1d00-d9b7-d6cb-da39.ngrok-free.app/api/entrega');
-      setEntregas(response.data);
+      console.log("Resposta do backend:", response.data); // Log para depuração
+      if (Array.isArray(response.data)) {
+        setEntregas(response.data); // Atualiza o estado apenas se for um array
+      } else {
+        console.error("Os dados recebidos não são um array:", response.data);
+        setEntregas([]); // Define um array vazio como fallback
+      }
     } catch (error) {
-      alert('Erro ao buscar entregas');
+      console.error("Erro ao buscar entregas:", error);
+      alert('Erro ao buscar entregas!');
     }
   };
 
-  const formatarData = (data) => {
-    const partes = data.split('-');
-    return `${partes[2]}/${partes[1]}/${partes[0]}`;
-  };
-
-  const formatarDataParaInput = (data) => {
-    const partes = data.split('/');
-    return `${partes[2]}-${partes[1]}-${partes[0]}`;
-  };
-
+  // Função para salvar ou atualizar uma entrega
   const handleSalvar = async () => {
-    const novaEntrega = {
-      responsavel,
-      crianca,
-      contato,
-      nascimento: formatarData(nascimento),
-      tipo
+    const entrega = {
+      descricao,
+      dataEntrega: dataEntrega,
+      status,
     };
+
+    console.log('Enviando para o backend:', entrega);
 
     try {
       if (id === null) {
-        await axios.post('https://f322-2804-7f0-6540-600f-1d00-d9b7-d6cb-da39.ngrok-free.app/api/entrega', novaEntrega);
+        await axios.post('https://f322-2804-7f0-6540-600f-1d00-d9b7-d6cb-da39.ngrok-free.app/api/entrega', entrega);
         alert('Entrega salva com sucesso!');
       } else {
-        await axios.put(`https://f322-2804-7f0-6540-600f-1d00-d9b7-d6cb-da39.ngrok-free.app/api/entrega/${id}`, novaEntrega);
+        await axios.put(`https://f322-2804-7f0-6540-600f-1d00-d9b7-d6cb-da39.ngrok-free.app/api/entrega/${id}`, entrega);
         alert('Entrega atualizada com sucesso!');
       }
       limparCampos();
-      fetchEntregas();
+      fetchEntregas(); // Atualiza a lista após salvar/atualizar
     } catch (error) {
       console.error(error);
       alert('Erro ao salvar entrega!');
     }
   };
 
+  // Função para editar uma entrega
   const handleEditar = (entrega) => {
     setId(entrega.id);
-    setResponsavel(entrega.responsavel);
-    setCrianca(entrega.crianca);
-    setContato(entrega.contato);
-    setNascimento(formatarDataParaInput(entrega.nascimento));
-    setTipo(entrega.tipo);
+    setDescricao(entrega.descricao);
+    setDataEntrega(entrega.dataEntrega);
+    setStatus(entrega.status);
   };
 
+  // Função para excluir uma entrega
   const handleExcluir = async (id) => {
     try {
       await axios.delete(`https://f322-2804-7f0-6540-600f-1d00-d9b7-d6cb-da39.ngrok-free.app/api/entrega/${id}`);
       alert('Entrega excluída com sucesso!');
-      fetchEntregas();
+      fetchEntregas(); // Atualiza a lista após excluir
     } catch (error) {
       console.error(error);
       alert('Erro ao excluir entrega!');
     }
   };
 
-  const handleImportar = async () => {
-    try {
-      await axios.post('https://f322-2804-7f0-6540-600f-1d00-d9b7-d6cb-da39.ngrok-free.app/api/entrega/importar');
-      alert('Importação realizada com sucesso!');
-      fetchEntregas();
-    } catch (error) {
-      console.error(error);
-      alert('Erro ao importar!');
-    }
-  };
-
+  // Função para limpar os campos do formulário
   const limparCampos = () => {
     setId(null);
-    setResponsavel('');
-    setCrianca('');
-    setContato('');
-    setNascimento('');
-    setTipo('');
+    setDescricao('');
+    setDataEntrega('');
+    setStatus('');
   };
 
   return (
     <div className="entrega-container">
       <h2>Cadastro de Entregas</h2>
 
+      {/* Formulário */}
       <div className="form-wrapper">
         <div className="form-grid">
           <input
             type="text"
-            placeholder="Responsável"
-            value={responsavel}
-            onChange={(e) => setResponsavel(e.target.value)}
-          />
-          <input
-            type="text"
-            placeholder="Criança"
-            value={crianca}
-            onChange={(e) => setCrianca(e.target.value)}
-          />
-          <input
-            type="text"
-            placeholder="Contato"
-            value={contato}
-            onChange={(e) => setContato(e.target.value)}
+            placeholder="Descrição"
+            value={descricao}
+            onChange={(e) => setDescricao(e.target.value)}
           />
           <input
             type="date"
-            value={nascimento}
-            onChange={(e) => setNascimento(e.target.value)}
+            value={dataEntrega}
+            onChange={(e) => setDataEntrega(e.target.value)}
           />
           <input
             type="text"
-            placeholder="Tipo"
-            value={tipo}
-            onChange={(e) => setTipo(e.target.value)}
+            placeholder="Status"
+            value={status}
+            onChange={(e) => setStatus(e.target.value)}
           />
         </div>
 
+        {/* Botão de Salvar */}
         <div className="buttons">
           <button onClick={handleSalvar}>Salvar</button>
-          <button onClick={handleImportar}>Importar</button>
         </div>
       </div>
 
+      {/* Tabela de Entregas */}
       <table className="tabela-entregas">
         <thead>
           <tr>
-            <th>Responsável</th>
-            <th>Criança</th>
-            <th>Contato</th>
-            <th>Nascimento</th>
-            <th>Tipo</th>
+            <th>Descrição</th>
+            <th>Data da Entrega</th>
+            <th>Status</th>
             <th>Ações</th>
           </tr>
         </thead>
         <tbody>
-          {entregas.map((e) => (
-            <tr key={e.id}>
-              <td>{e.responsavel}</td>
-              <td>{e.crianca}</td>
-              <td>{e.contato}</td>
-              <td>{e.nascimento}</td>
-              <td>{e.tipo}</td>
-              <td>
-                <button onClick={() => handleEditar(e)}>Editar</button>{' '}
-                <button onClick={() => handleExcluir(e.id)}>Excluir</button>
-              </td>
+          {Array.isArray(entregas) && entregas.length > 0 ? (
+            entregas.map((e) => (
+              <tr key={e.id}>
+                <td>{e.descricao}</td>
+                <td>{e.dataEntrega}</td>
+                <td>{e.status}</td>
+                <td>
+                  <button onClick={() => handleEditar(e)}>Editar</button>{' '}
+                  <button onClick={() => handleExcluir(e.id)}>Excluir</button>
+                </td>
+              </tr>
+            ))
+          ) : (
+            <tr>
+              <td colSpan="4">Nenhuma entrega encontrada.</td>
             </tr>
-          ))}
+          )}
         </tbody>
       </table>
     </div>

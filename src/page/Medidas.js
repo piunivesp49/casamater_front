@@ -19,7 +19,7 @@ const Medidas = () => {
 
   // Buscar medidas do backend
   useEffect(() => {
-    fetch("https://f322-2804-7f0-6540-600f-1d00-d9b7-d6cb-da39.ngrok-free.app/api/medidas")
+    fetch("https://539a-2804-7f0-6540-600f-1d00-d9b7-d6cb-da39.ngrok-free.app/api/medidas")
       .then((res) => res.json())
       .then((data) => setMedidas(data))
       .catch((err) => console.error("Erro ao buscar medidas:", err));
@@ -36,8 +36,8 @@ const Medidas = () => {
     e.preventDefault();
     const method = editingId ? "PUT" : "POST";
     const url = editingId
-      ? `https://f322-2804-7f0-6540-600f-1d00-d9b7-d6cb-da39.ngrok-free.app/api/medidas/${editingId}`
-      : "https://f322-2804-7f0-6540-600f-1d00-d9b7-d6cb-da39.ngrok-free.app/api/medidas";
+      ? `https://539a-2804-7f0-6540-600f-1d00-d9b7-d6cb-da39.ngrok-free.app/api/medidas/${editingId}`
+      : "https://539a-2804-7f0-6540-600f-1d00-d9b7-d6cb-da39.ngrok-free.app/api/medidas";
 
     try {
       const response = await fetch(url, {
@@ -61,7 +61,7 @@ const Medidas = () => {
           observacao: "",
         });
         setEditingId(null);
-        fetch("https://f322-2804-7f0-6540-600f-1d00-d9b7-d6cb-da39.ngrok-free.app/api/medidas")
+        fetch("https://539a-2804-7f0-6540-600f-1d00-d9b7-d6cb-da39.ngrok-free.app/api/medidas")
           .then((res) => res.json())
           .then((data) => setMedidas(data));
       } else {
@@ -86,7 +86,7 @@ const Medidas = () => {
   const handleDelete = async (id) => {
     if (!id) return;
     if (window.confirm("Deseja apagar esta medida?")) {
-      await fetch(`https://f322-2804-7f0-6540-600f-1d00-d9b7-d6cb-da39.ngrok-free.app/api/medidas/${id}`, { method: "DELETE" });
+      await fetch(`https://539a-2804-7f0-6540-600f-1d00-d9b7-d6cb-da39.ngrok-free.app/api/medidas/${id}`, { method: "DELETE" });
       setMedidas(medidas.filter((m) => m.id !== id));
     }
   };
@@ -94,12 +94,12 @@ const Medidas = () => {
   // Importar dados
   const handleImport = async () => {
     try {
-      const response = await fetch("http://localhost:8081/api/medidas/importar", {
+      const response = await fetch("https://539a-2804-7f0-6540-600f-1d00-d9b7-d6cb-da39.ngrok-free.app/api/medidas/importar", {
         method: "POST",
       });
       if (response.ok) {
         alert("Importação concluída!");
-        fetch("https://f322-2804-7f0-6540-600f-1d00-d9b7-d6cb-da39.ngrok-free.app/api/medidas")
+        fetch("https://539a-2804-7f0-6540-600f-1d00-d9b7-d6cb-da39.ngrok-free.app/api/medidas")
           .then((res) => res.json())
           .then((data) => setMedidas(data));
       } else {

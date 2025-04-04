@@ -18,7 +18,7 @@ function Entrega() {
   // Função para buscar entregas do backend
   const fetchEntregas = async () => {
     try {
-      const response = await axios.get('https://f322-2804-7f0-6540-600f-1d00-d9b7-d6cb-da39.ngrok-free.app/api/entrega');
+      const response = await axios.get('https://539a-2804-7f0-6540-600f-1d00-d9b7-d6cb-da39.ngrok-free.app/api/entrega');
       console.log("Resposta do backend:", response.data); // Log para depuração
       if (Array.isArray(response.data)) {
         setEntregas(response.data); // Atualiza o estado apenas se for um array
@@ -44,10 +44,10 @@ function Entrega() {
 
     try {
       if (id === null) {
-        await axios.post('https://f322-2804-7f0-6540-600f-1d00-d9b7-d6cb-da39.ngrok-free.app/api/entrega', entrega);
+        await axios.post('https://539a-2804-7f0-6540-600f-1d00-d9b7-d6cb-da39.ngrok-free.app/api/entrega', entrega);
         alert('Entrega salva com sucesso!');
       } else {
-        await axios.put(`https://f322-2804-7f0-6540-600f-1d00-d9b7-d6cb-da39.ngrok-free.app/api/entrega/${id}`, entrega);
+        await axios.put(`https://539a-2804-7f0-6540-600f-1d00-d9b7-d6cb-da39.ngrok-free.app/api/entrega/${id}`, entrega);
         alert('Entrega atualizada com sucesso!');
       }
       limparCampos();
@@ -69,7 +69,7 @@ function Entrega() {
   // Função para excluir uma entrega
   const handleExcluir = async (id) => {
     try {
-      await axios.delete(`https://f322-2804-7f0-6540-600f-1d00-d9b7-d6cb-da39.ngrok-free.app/api/entrega/${id}`);
+      await axios.delete(`https://539a-2804-7f0-6540-600f-1d00-d9b7-d6cb-da39.ngrok-free.app/api/entrega/${id}`);
       alert('Entrega excluída com sucesso!');
       fetchEntregas(); // Atualiza a lista após excluir
     } catch (error) {

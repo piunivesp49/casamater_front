@@ -19,7 +19,7 @@ const Medidas = () => {
 
   // Buscar medidas do backend
   useEffect(() => {
-    fetch("http://localhost:8081/api/medidas")
+    fetch("https://f322-2804-7f0-6540-600f-1d00-d9b7-d6cb-da39.ngrok-free.app/api/medidas")
       .then((res) => res.json())
       .then((data) => setMedidas(data))
       .catch((err) => console.error("Erro ao buscar medidas:", err));
@@ -36,8 +36,8 @@ const Medidas = () => {
     e.preventDefault();
     const method = editingId ? "PUT" : "POST";
     const url = editingId
-      ? `http://localhost:8081/api/medidas/${editingId}`
-      : "http://localhost:8081/api/medidas";
+      ? `https://f322-2804-7f0-6540-600f-1d00-d9b7-d6cb-da39.ngrok-free.app/api/medidas/${editingId}`
+      : "https://f322-2804-7f0-6540-600f-1d00-d9b7-d6cb-da39.ngrok-free.app/api/medidas";
 
     try {
       const response = await fetch(url, {
@@ -61,7 +61,7 @@ const Medidas = () => {
           observacao: "",
         });
         setEditingId(null);
-        fetch("http://localhost:8081/api/medidas")
+        fetch("https://f322-2804-7f0-6540-600f-1d00-d9b7-d6cb-da39.ngrok-free.app/api/medidas")
           .then((res) => res.json())
           .then((data) => setMedidas(data));
       } else {
@@ -86,7 +86,7 @@ const Medidas = () => {
   const handleDelete = async (id) => {
     if (!id) return;
     if (window.confirm("Deseja apagar esta medida?")) {
-      await fetch(`http://localhost:8081/api/medidas/${id}`, { method: "DELETE" });
+      await fetch(`https://f322-2804-7f0-6540-600f-1d00-d9b7-d6cb-da39.ngrok-free.app/api/medidas/${id}`, { method: "DELETE" });
       setMedidas(medidas.filter((m) => m.id !== id));
     }
   };
@@ -99,7 +99,7 @@ const Medidas = () => {
       });
       if (response.ok) {
         alert("Importação concluída!");
-        fetch("http://localhost:8081/api/medidas")
+        fetch("https://f322-2804-7f0-6540-600f-1d00-d9b7-d6cb-da39.ngrok-free.app/api/medidas")
           .then((res) => res.json())
           .then((data) => setMedidas(data));
       } else {

@@ -179,11 +179,11 @@ function Crianca() {
           {Array.isArray(criancas) && criancas.length > 0 ? (
             criancas.map((c) => (
               <tr key={c.id}>
-                <td>{c.atendido}</td>
-                <td>{c.nascimento}</td>
-                <td>{c.logradouro}</td>
-                <td>{c.numero}</td>
-                <td>{c.bairro}</td>
+                <td>{c.atendido || 'N/A'}</td>
+                <td>{c.nascimento || 'N/A'}</td>
+                <td>{c.logradouro || 'N/A'}</td>
+                <td>{c.numero || 'N/A'}</td>
+                <td>{c.bairro || 'N/A'}</td>
                 <td>
                   <button onClick={() => handleEditar(c)}>Editar</button>{' '}
                   <button onClick={() => handleExcluir(c.id)}>Excluir</button>
